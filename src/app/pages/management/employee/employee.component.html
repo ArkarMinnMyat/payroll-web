@@ -1,0 +1,87 @@
+<app-list-view icon="bi-people" [pager]="page()" title="Employee Management">
+
+  <div controlsBtns>
+    <!-- Create Button -->
+    <a [routerLink]="['../', 'edit']" class="btn btn-outline-primary ms-2">
+      <i class="bi-plus-lg"></i> Create
+    </a>
+    <!-- Import Button -->
+    <button class="btn btn-outline-primary ms-2">
+      <i class="bi-arrow-down-square"></i> Import
+    </button>
+    <!-- Export Button -->
+    <button class="btn btn-outline-primary ms-2">
+      <i class="bi-arrow-up-square"></i> Export
+    </button>
+  </div>
+
+  <form searchForm [formGroup]="form" class="row">
+    <!-- Department -->
+    <div class="col-auto">
+      <app-form-group label="Department">
+        <input formControlName="department" placeholder="Search Department Code" class="form-control">
+      </app-form-group>
+    </div>
+
+    <!-- Position -->
+    <div class="col-auto">
+      <app-form-group label="Position">
+        <input formControlName="position" placeholder="Search Position Code" class="form-control">
+      </app-form-group>
+    </div>
+
+    <!-- Name -->
+    <div class="col-auto">
+      <app-form-group label="Name">
+        <input formControlName="name" placeholder="Search Name" class="form-control">
+      </app-form-group>
+    </div>
+
+    <div class="col btn-wrapper">
+      <button (click)="search()" type="button" class="btn btn-outline-primary">
+        <i class="bi-search"></i> Search
+      </button>
+    </div>
+  </form>
+
+  @if (list().length) {
+    <table resultList class="table table-bordered mt-2">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Position</th>
+          <th>Status</th>
+          <th>Assign At</th>
+          <th>Provation At</th>
+          <th>Retired At</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (item of list(); track $index) {
+          <tr>
+            <td>{{item.code}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.department}}</td>
+            <td>{{item.positionName}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.assignAt}}</td>
+            <td>{{item.provationPassAt}}</td>
+            <td>{{item.retiredAt}}</td>
+            <td>
+              <a [routerLink]="['../', 'details']" [queryParams]="{code : item.code}" class="icon-link">
+                <i class="bi-send"></i>
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <app-no-data domain="Employee"></app-no-data>
+  }
+
+</app-list-view>
